@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 
 const dbUrl = require('./dbUrl');
 
+const productRoutes = require('./routes/productRoutes');
+
 mongoose.connect(dbUrl,
     {
         useNewUrlParser: true,
@@ -22,5 +24,7 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
+
+app.use('api/products', productRoutes);
 
 module.exports = app;
