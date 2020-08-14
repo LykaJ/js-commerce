@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const dbUrl = require('./dbUrl');
 
 const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 mongoose.connect(dbUrl,
     {
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use('api/products', productRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 module.exports = app;
