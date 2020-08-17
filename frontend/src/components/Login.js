@@ -1,42 +1,74 @@
 import React, {Component} from 'react';
 import {Button, FormGroup} from "react-bootstrap";
-import App from "../App";
-
-const API = 'http://localhost:3000/api/';
+import axios from 'axios';
 
 class Login extends Component {
+
     constructor(props) {
         super(props);
+
         this.state = {
-            email: '',
-            password: ''
-        }
+            email: "",
+            password: "",
+            loginErrors: ""
+        };
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount() {
-        fetch(API).then(response => {
-            console.log(response.headers)
-        })
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
     }
 
     render() {
         return (
-            <div>
-                <h1>Login</h1>
-                <FormGroup>
-                    <label htmlFor="emailInput">Email address</label>
-                    <input type="email" className="form-control" id="emailInput"
-                           placeholder="name@example.com"
-                           onChange={(event, newValue) => this.setState({email: newValue})}/>
+            <div className="container">
+                <h2>Login</h2>
+                <form onSubmit={this.handleSubmit}>
+                    <FormGroup>
+                        <label htmlFor="emailInput">Email address</label>
+                        <input type="email" className="form-control" id="emailInput" value={this.state.em}
+                               onChange={this.handleChange} required/>
+                    </FormGroup>
+                    <FormGroup>
+                        <label htmlFor="passwordInput">Password</label>
+                        <input type="password" className="form-control" id="passwordInput"
+                               onChange={this.handleChange}/>
+                    </FormGroup>
 
-                    <label htmlFor="passwordInput">Email address</label>
-                    <input type="password" className="form-control" id="passwordInput"
-                           onChange={(event, newValue) => this.setState({password: newValue})}/>
-
-                    {/*<Button label="Submit" primary={true} onClick={(event) => this.handleClick(event)}></Button>*/}
-                </FormGroup>
+                    <Button label="Submit" type="submit" className="btn-primary">Login</Button>
+                </form>
             </div>
         );
+    }
+
+    handleSubmit(event) {
+        const {email, password} = this.state;
+
+        axios
+            .post(
+                "http://localhost:3000/api/login",
+                {
+                    user: {
+                        email: email,
+                        password: password
+                    }
+                },
+                {withCredentials: true}
+            )
+            .then(response => {
+                console.log(response);
+                if (response.data.loggedIn) {
+                    this.props.handleSuccessfulAuth(response.data);
+                }
+            })
+            .catch(error => {
+                console.log("login error", error);
+            });
+        event.preventDefault();
     }
 };
 

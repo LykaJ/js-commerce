@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Card} from "react-bootstrap";
-import App from "../App";
 
 const APIProducts = 'http://localhost:3000/api/products/';
 
