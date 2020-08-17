@@ -5,6 +5,7 @@ import {Button} from "react-bootstrap";
 import Registration from "./Registration";
 import Login from "./Login";
 
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -32,9 +33,9 @@ export default class Home extends Component {
         return (
             <div>
                 <h1>Home</h1>
-                <h1>Status: {this.props.loggedInStatus}</h1>
+                <h2>Status: {this.props.loggedInStatus}</h2>
                 <Button className="btn-primary" onClick={() => this.handleLogoutClick()}>Logout</Button>
-               {/* <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />*/}
+                <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
                 <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
             </div>
         );

@@ -30,16 +30,17 @@ class Login extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup>
                         <label htmlFor="emailInput">Email address</label>
-                        <input type="email" className="form-control" id="emailInput" value={this.state.em}
+                        <input type="email" className="form-control" id="emailInput" name="email" value={this.state.email}
                                onChange={this.handleChange} required/>
                     </FormGroup>
                     <FormGroup>
                         <label htmlFor="passwordInput">Password</label>
-                        <input type="password" className="form-control" id="passwordInput"
-                               onChange={this.handleChange}/>
+                        <input type="password" className="form-control" id="passwordInput" name="password" value={this.state.password}
+                               onChange={this.handleChange} required/>
                     </FormGroup>
 
-                    <Button label="Submit" type="submit" className="btn-primary">Login</Button>
+                    <Button type="submit" className="btn-primary">Login</Button>
+
                 </form>
             </div>
         );
@@ -52,10 +53,8 @@ class Login extends Component {
             .post(
                 "http://localhost:3000/api/login",
                 {
-                    user: {
-                        email: email,
-                        password: password
-                    }
+                    email: email,
+                    password: password
                 },
                 {withCredentials: true}
             )

@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 
 import './App.css';
 import Home from "./components/Home";
+import Dashboard from "./components/Dashboard";
+import Product from "./components/Product";
 
 export default class App extends Component {
     constructor() {
@@ -19,29 +21,31 @@ export default class App extends Component {
     }
 
     checkLoginStatus() {
-        axios
-            .get("http://localhost:3000/api/user", {withCredentials: true})
-            .then(response => {
-                if (
-                    response.data.loggedIn &&
-                    this.state.loggedInStatus === "NOT_LOGGED_IN"
-                ) {
-                    this.setState({
-                        loggedInStatus: "LOGGED_IN",
-                        user: response.data.user
-                    });
-                } else if (
-                    !response.data.loggedIn && (this.state.loggedInStatus === "LOGGED_IN")
-                ) {
-                    this.setState({
-                        loggedInStatus: "NOT_LOGGED_IN",
-                        user: {}
-                    });
-                }
-            })
-            .catch(error => {
-                console.log("check login error", error);
-            });
+        if (this.state.user) {
+            axios
+                .get("http://localhost:3000/api/logged", {withCredentials: true})
+                .then(response => {
+                    if (
+                        response.data.loggedIn &&
+                        this.state.loggedInStatus === "NOT_LOGGED_IN"
+                    ) {
+                        this.setState({
+                            loggedInStatus: "LOGGED_IN",
+                            user: response.data.user
+                        });
+                    } else if (
+                        !response.data.loggedIn && (this.state.loggedInStatus === "LOGGED_IN")
+                    ) {
+                        this.setState({
+                            loggedInStatus: "NOT_LOGGED_IN",
+                            user: {}
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.log("check login error", error);
+                });
+        }
     }
 
     componentDidMount() {
@@ -79,8 +83,19 @@ export default class App extends Component {
                                 />
                             )}
                         />
+                        <Route
+                            exact
+                            path={"/dashboard"}
+                            render={props => (
+                                <Dashboard
+                                    {...props}
+                                    loggedInStatus={this.state.loggedInStatus}
+                                />
+                            )}
+                        />
                     </Switch>
                 </BrowserRouter>
+                <Product />
             </div>
         );
     }

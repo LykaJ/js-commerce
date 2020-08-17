@@ -3,13 +3,13 @@ import axios from "axios";
 import {Button, FormGroup} from "react-bootstrap";
 
 export default class Registration extends Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             email: "",
             password: "",
-            password_confirmation: "",
             registrationErrors: ""
         };
 
@@ -24,21 +24,18 @@ export default class Registration extends Component {
     }
 
     handleSubmit(event) {
-        const {email, password, password_confirmation} = this.state;
-
+        const {email, password} = this.state;
         axios
             .post(
-                "http://localhost:3001/signup",
+                "http://localhost:3000/api/signup",
                 {
-                    user: {
-                        email: email,
-                        password: password,
-                        password_confirmation: password_confirmation
-                    }
+                    email: email,
+                    password: password
                 },
                 {withCredentials: true}
             )
             .then(response => {
+                console.log(response)
                 if (response.data.status === "created") {
                     this.props.handleSuccessfulAuth(response.data);
                 }
@@ -46,6 +43,7 @@ export default class Registration extends Component {
             .catch(error => {
                 console.log("registration error", error);
             });
+
         event.preventDefault();
     }
 
@@ -55,23 +53,23 @@ export default class Registration extends Component {
                 <h2>Registration</h2>
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup>
-                        <label htmlFor="emailInput">Email address</label>
+                        <label htmlFor="emailInputRegister">Email address</label>
                         <input
                             className="form-control"
                             type="email"
                             name="email"
-                            id="emailInput"
+                            id="emailInputRegister"
                             value={this.state.email}
                             onChange={this.handleChange}
                             required
                         />
 
-                        <label htmlFor="passwordInput">Password</label>
+                        <label htmlFor="passwordInputRegister">Password</label>
                         <input
                             className="form-control"
                             type="password"
                             name="password"
-                            id="passwordInput"
+                            id="passwordInputRegister"
                             value={this.state.password}
                             onChange={this.handleChange}
                             required

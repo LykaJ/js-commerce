@@ -38,5 +38,6 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.10.4"
-  }
+  },
+  "proxy": "http://localhost:3000"
 }
