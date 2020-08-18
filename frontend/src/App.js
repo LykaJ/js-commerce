@@ -21,31 +21,36 @@ export default class App extends Component {
     }
 
     checkLoginStatus() {
-        if (this.state.user) {
-            axios
-                .get("http://localhost:3000/api/logged", {withCredentials: true})
-                .then(response => {
-                    if (
-                        response.data.loggedIn &&
-                        this.state.loggedInStatus === "NOT_LOGGED_IN"
-                    ) {
-                        this.setState({
-                            loggedInStatus: "LOGGED_IN",
-                            user: response.data.user
-                        });
-                    } else if (
-                        !response.data.loggedIn && (this.state.loggedInStatus === "LOGGED_IN")
-                    ) {
-                        this.setState({
-                            loggedInStatus: "NOT_LOGGED_IN",
-                            user: {}
-                        });
+        axios
+            .get("http://localhost:3001/logged",
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Authorization': `Bearer ${this.state.user.token}`
                     }
                 })
-                .catch(error => {
-                    console.log("check login error", error);
-                });
-        }
+            .then(response => {
+                if (
+                    response.data.loggedIn &&
+                    this.state.loggedInStatus === "NOT_LOGGED_IN"
+                ) {
+                    this.setState({
+                        loggedInStatus: "LOGGED_IN",
+                        user: response.data.user
+                    });
+                } else if (
+                    !response.data.loggedIn && (this.state.loggedInStatus === "LOGGED_IN")
+                ) {
+                    this.setState({
+                        loggedInStatus: "NOT_LOGGED_IN",
+                        user: {}
+                    });
+                }
+            })
+            .catch(error => {
+                console.log("check login error", error);
+            });
+
     }
 
     componentDidMount() {
@@ -95,7 +100,7 @@ export default class App extends Component {
                         />
                     </Switch>
                 </BrowserRouter>
-                <Product />
+                <Product/>
             </div>
         );
     }

@@ -27,7 +27,7 @@ export default class Registration extends Component {
         const {email, password} = this.state;
         axios
             .post(
-                "http://localhost:3000/api/signup",
+                "http://localhost:3000/signup",
                 {
                     email: email,
                     password: password
@@ -35,7 +35,6 @@ export default class Registration extends Component {
                 {withCredentials: true}
             )
             .then(response => {
-                console.log(response)
                 if (response.data.status === "created") {
                     this.props.handleSuccessfulAuth(response.data);
                 }

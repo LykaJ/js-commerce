@@ -15,12 +15,14 @@ export default class Home extends Component {
     }
 
     handleSuccessfulAuth(data) {
+        console.log("successfull auth res" + data);
         this.props.handleLogin(data);
+        this.props.history.push("/dashboard");
     }
 
     handleLogoutClick() {
         axios
-            .delete("http://localhost:3000/api/logout", { withCredentials: true })
+            .put("http://localhost:3000/logout", { withCredentials: true })
             .then(response => {
                 this.props.handleLogout();
             })

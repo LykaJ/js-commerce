@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Card} from "react-bootstrap";
 
-const APIProducts = 'http://localhost:3000/api/products/';
+const APIProducts = 'http://localhost:3000/products/';
 
 export class Product extends Component {
     //fetch products from db
