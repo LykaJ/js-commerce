@@ -30,7 +30,7 @@ export default class App extends Component {
                     }
                 })
             .then(response => {
-                console.log("logged in", response, response.data.user);
+                console.log("logged in", response, response.data.isTokenBlacklisted);
                 if (
                     response.data.user &&
                     this.state.loggedInStatus === "NOT_LOGGED_IN"

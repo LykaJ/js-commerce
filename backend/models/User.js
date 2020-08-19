@@ -6,7 +6,8 @@ const userSchema = mongoose.Schema({
     password: {type: String, required: true},
     firstLogin: {type: Date, required: true},
     lastLogin: {type: Date},
-    token: {type: String}
+    token: {type: String},
+    isTokenBlacklisted: {type: Boolean, required: true, default: false}
 });
 
 userSchema.plugin(uniqueValidator);

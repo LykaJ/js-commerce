@@ -52,7 +52,7 @@ exports.login = (req, res) => {
                         token: jwt.sign(
                             {userId: user._id},
                             'RANDOM_TOKEN_SECRET',
-                            {expiresIn: 86400},
+                            {expiresIn: 36000},
                         ),
                         lastLogin: Date.now(),
                     });
@@ -67,7 +67,7 @@ exports.logout = (req, res) => {
         .then(() => {
             User.updateOne({_id: req.params.id}, {...req.body, _id: req.params.id})
                 .then(() => res.status(200).json({
-                    token: null
+                    isTokenBlacklisted: true
                 }))
                 .catch(error => res.status(400).json({error}));
         })
