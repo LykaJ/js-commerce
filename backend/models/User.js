@@ -2,12 +2,11 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = mongoose.Schema({
-    email: {type: String, required: true, unique: true},
+    email: {type: String, unique: true},
     password: {type: String, required: true},
     firstLogin: {type: Date, required: true},
-    lastLogin: {type: Date, required: false},
-    token: {type: String, required: false},
-    loggedIn: {type: Boolean, required: false}
+    lastLogin: {type: Date},
+    token: {type: String}
 });
 
 userSchema.plugin(uniqueValidator);

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import axios from "axios";
 import {Button} from "react-bootstrap";
 
@@ -15,14 +15,13 @@ export default class Home extends Component {
     }
 
     handleSuccessfulAuth(data) {
-        console.log("successfull auth res" + data);
         this.props.handleLogin(data);
         this.props.history.push("/dashboard");
     }
 
     handleLogoutClick() {
         axios
-            .put("http://localhost:3000/logout", { withCredentials: true })
+            .get("http://localhost:3000/logout", {withCredentials: true})
             .then(response => {
                 this.props.handleLogout();
             })
@@ -37,8 +36,8 @@ export default class Home extends Component {
                 <h1>Home</h1>
                 <h2>Status: {this.props.loggedInStatus}</h2>
                 <Button className="btn-primary" onClick={() => this.handleLogoutClick()}>Logout</Button>
-                <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
-                <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
+                <Registration handleSuccessfulAuth={this.handleSuccessfulAuth}/>
+                <Login handleSuccessfulAuth={this.handleSuccessfulAuth}/>
             </div>
         );
     }

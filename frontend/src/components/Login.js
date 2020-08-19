@@ -56,13 +56,14 @@ export default class Login extends Component {
                 "http://localhost:3000/login",
                 {
                     email: email,
-                    password: password
+                    password: password,
                 },
                 {withCredentials: true}
             )
             .then(response => {
                 console.log("res from login", response);
-                if (response.data.loggedIn) {
+
+                if (response.data.user) {
                     this.props.handleSuccessfulAuth(response.data);
                 }
 

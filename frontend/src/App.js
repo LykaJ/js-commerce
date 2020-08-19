@@ -22,7 +22,7 @@ export default class App extends Component {
 
     checkLoginStatus() {
         axios
-            .get("http://localhost:3001/logged",
+            .get("http://localhost:3000/logged",
                 {
                     withCredentials: true,
                     headers: {
@@ -30,8 +30,9 @@ export default class App extends Component {
                     }
                 })
             .then(response => {
+                console.log("logged in", response, response.data.user);
                 if (
-                    response.data.loggedIn &&
+                    response.data.user &&
                     this.state.loggedInStatus === "NOT_LOGGED_IN"
                 ) {
                     this.setState({
@@ -39,7 +40,7 @@ export default class App extends Component {
                         user: response.data.user
                     });
                 } else if (
-                    !response.data.loggedIn && (this.state.loggedInStatus === "LOGGED_IN")
+                    !response.data.user && (this.state.loggedInStatus === "LOGGED_IN")
                 ) {
                     this.setState({
                         loggedInStatus: "NOT_LOGGED_IN",
