@@ -32,12 +32,18 @@ export default class Home extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>Home</h1>
                 <h2>Status: {this.props.loggedInStatus}</h2>
                 <Button className="btn-primary" onClick={() => this.handleLogoutClick()}>Logout</Button>
-                <Registration handleSuccessfulAuth={this.handleSuccessfulAuth}/>
-                <Login handleSuccessfulAuth={this.handleSuccessfulAuth}/>
+                <div className="row">
+                    <div className="col-6">
+                        <Registration handleSuccessfulAuth={this.handleSuccessfulAuth}/>
+                    </div>
+                    <div className="col-6">
+                        <Login handleSuccessfulAuth={this.handleSuccessfulAuth}/>
+                    </div>
+                </div>
             </div>
         );
     }

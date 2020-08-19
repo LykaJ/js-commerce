@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
     firstLogin: {type: Date, required: true},
     lastLogin: {type: Date},
     token: {type: String},
-    isTokenBlacklisted: {type: Boolean, required: true, default: false}
+    isTokenBlacklisted: {type: Boolean, required: true}
 });
 
 userSchema.plugin(uniqueValidator);
