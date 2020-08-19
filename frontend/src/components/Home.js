@@ -21,7 +21,7 @@ export default class Home extends Component {
 
     handleLogoutClick() {
         axios
-            .get("http://localhost:3000/logout", {withCredentials: true})
+            .put("http://localhost:3000/logout", {withCredentials: true})
             .then(response => {
                 this.props.handleLogout();
             })

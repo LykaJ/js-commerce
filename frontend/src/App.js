@@ -5,7 +5,6 @@ import {BrowserRouter, Switch, Route} from "react-router-dom";
 import './App.css';
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
-import Product from "./components/Product";
 
 export default class App extends Component {
     constructor() {
@@ -30,9 +29,9 @@ export default class App extends Component {
                     }
                 })
             .then(response => {
-                console.log("logged in", response, response.data.isTokenBlacklisted);
+                console.log("logged in", response.data.user);
                 if (
-                    response.data.user &&
+                    response.data.user.token &&
                     this.state.loggedInStatus === "NOT_LOGGED_IN"
                 ) {
                     this.setState({
@@ -40,7 +39,7 @@ export default class App extends Component {
                         user: response.data.user
                     });
                 } else if (
-                    !response.data.user && (this.state.loggedInStatus === "LOGGED_IN")
+                    !response.data.user.token && (this.state.loggedInStatus === "LOGGED_IN")
                 ) {
                     this.setState({
                         loggedInStatus: "NOT_LOGGED_IN",
@@ -101,7 +100,6 @@ export default class App extends Component {
                         />
                     </Switch>
                 </BrowserRouter>
-                <Product/>
             </div>
         );
     }
