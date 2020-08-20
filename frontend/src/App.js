@@ -76,9 +76,14 @@ export default class App extends Component {
     }
 
     render() {
+        const user = this.state.loggedInStatus === "LOGGED_IN";
+        let button;
+        if(user) {
+           button = <Button className="btn-primary" onClick={() => this.handleLogoutClick()}>Logout</Button>
+        }
         return (
             <div className="App">
-                <Button className="btn-primary" onClick={() => this.handleLogoutClick()}>Logout</Button>
+                {button}
                 <BrowserRouter>
                     <Switch>
                         <Route
