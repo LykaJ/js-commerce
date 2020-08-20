@@ -1,5 +1,4 @@
 import React from "react";
-import Product from "./Product";
 
 const Dashboard = props => {
     return (
@@ -7,8 +6,8 @@ const Dashboard = props => {
             <div>
                 <h1>Dashboard</h1>
                 <h1>Status: {props.loggedInStatus}</h1>
+                <h2>Your account</h2>
             </div>
-            <Product />
         </div>
     );
 };

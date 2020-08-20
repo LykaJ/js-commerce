@@ -4,8 +4,9 @@ import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {Button} from "react-bootstrap";
 
 import './App.css';
-import Home from "./components/Home";
+import Account from "./components/Account";
 import Dashboard from "./components/Dashboard";
+import Home from "./components/Home";
 
 export default class App extends Component {
     constructor() {
@@ -87,10 +88,14 @@ export default class App extends Component {
                 <BrowserRouter>
                     <Switch>
                         <Route
-                            exact
-                            path={"/"}
+                        exact
+                        path={"/"}
+                        component={Home}
+                        />
+                        <Route
+                            path={"/account"}
                             render={props => (
-                                <Home
+                                <Account
                                     {...props}
                                     handleLogin={this.handleLogin}
                                     loggedInStatus={this.state.loggedInStatus}
@@ -98,7 +103,6 @@ export default class App extends Component {
                             )}
                         />
                         <Route
-                            exact
                             path={"/dashboard"}
                             render={props => (
                                 <Dashboard
