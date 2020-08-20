@@ -29,7 +29,6 @@ export default class App extends Component {
                     }
                 })
             .then(response => {
-                console.log("logged in", response.data.user);
                 if (
                     response.data.user.token &&
                     this.state.loggedInStatus === "NOT_LOGGED_IN"
@@ -57,8 +56,7 @@ export default class App extends Component {
         this.checkLoginStatus();
     }
 
-    handleLogout(data) {
-        console.log(this.state);
+    handleLogout() {
         this.setState({
             loggedInStatus: "NOT_LOGGED_IN",
             user: {}
