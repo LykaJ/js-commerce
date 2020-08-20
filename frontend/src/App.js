@@ -58,6 +58,7 @@ export default class App extends Component {
     }
 
     handleLogout(data) {
+        console.log(this.state);
         this.setState({
             loggedInStatus: "NOT_LOGGED_IN",
             user: {}

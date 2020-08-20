@@ -23,10 +23,8 @@ exports.signup = (req, res) => {
                 email: req.body.email,
                 password: hash,
                 firstLogin: Date.now(),
-                lastLogin: null,
-                token: null,
                 isTokenBlacklisted: false
-            });
+            })
             user.save()
                 .then(() => res.status(201).json({
                     message: 'User created',
@@ -47,35 +45,28 @@ exports.login = (req, res) => {
                     if (!valid) {
                         return res.status(401).json({error: 'invalid credentials'});
                     }
-                    res.status(200).json({
-                            userId: user._id,
-                            token: jwt.sign(
-                                {userId: user._id},
-                                'RANDOM_TOKEN_SECRET',
-                                {expiresIn: 36000}
-                            ),
-                            lastLogin: Date.now(),
-                            isTokenBlacklisted: false
-                    });
+                    User.updateOne({email: req.body.email}, {
+                        token: jwt.sign(
+                            {userId: user._id},
+                            'RANDOM_TOKEN_SECRET',
+                            {expiresIn: 36000}
+                        ),
+                        lastLogin: Date.now(),
+                        isTokenBlacklisted: false
+                    })
+                        .then(user => res.status(200).json({user}), {runValidators: true})
+                        .catch(error => res.status(400).json({error}));
                 })
-                .catch(error => res.status(500).json({error}));
+
         })
         .catch(error => res.status(500).json({error}));
 };
 
 exports.logout = (req, res) => {
-   User.findOne({email: req.body.email})
-        .then(user => {
-            User.updateOne({_id: req.params.id}, {...req.body, _id: req.params.id})
-                .then(user => res.status(200).json({user}), { runValidators: true })
-                .catch(error => res.status(400).json({error}));
-            res.status(200).json({
-                user: {
-                    token: null,
-                    isTokenBlacklisted: true
-                },
-            });
-            user.save();
-        })
+    User.updateOne({email: req.body.email}, {
+        token: null,
+        isTokenBlacklisted: true
+    })
+        .then(user => res.status(200).json({user}), {runValidators: true})
         .catch(error => res.status(500).json({error, message: "Cannot logout"}));
 };

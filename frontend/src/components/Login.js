@@ -52,7 +52,7 @@ export default class Login extends Component {
         const {email, password} = this.state;
 
         axios
-            .post(
+            .put(
                 "http://localhost:3000/login",
                 {
                     email: email,
