@@ -7,6 +7,7 @@ import './App.css';
 import Account from "./components/Account";
 import Dashboard from "./components/Dashboard";
 import Home from "./components/Home";
+import Nav from "./components/Nav";
 
 export default class App extends Component {
     constructor() {
@@ -84,8 +85,9 @@ export default class App extends Component {
         }
         return (
             <div className="App">
-                {button}
                 <BrowserRouter>
+                    <Nav/>
+                    {button}
                     <Switch>
                         <Route
                         exact
