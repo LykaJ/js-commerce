@@ -63,7 +63,7 @@ exports.login = (req, res) => {
 };
 
 exports.logout = (req, res) => {
-    User.updateOne({email: req.body.email}, {
+    User.updateOne({userId: req.body._id}, {
         token: null,
         isTokenBlacklisted: true
     })

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {Button} from "react-bootstrap";
 
 import './App.css';
 import Home from "./components/Home";
@@ -16,7 +17,6 @@ export default class App extends Component {
         };
 
         this.handleLogin = this.handleLogin.bind(this);
-        this.handleLogout = this.handleLogout.bind(this);
     }
 
     checkLoginStatus() {
@@ -24,9 +24,6 @@ export default class App extends Component {
             .get("http://localhost:3000/logged",
                 {
                     withCredentials: true,
-                    headers: {
-                        'Authorization': `Bearer ${this.state.user.token}`
-                    }
                 })
             .then(response => {
                 if (
@@ -49,18 +46,26 @@ export default class App extends Component {
             .catch(error => {
                 console.log("check login error", error);
             });
-
     }
 
     componentDidMount() {
         this.checkLoginStatus();
     }
 
-    handleLogout() {
-        this.setState({
-            loggedInStatus: "NOT_LOGGED_IN",
-            user: {}
-        });
+    handleLogoutClick() {
+        axios
+            .put("http://localhost:3000/logout", {
+                withCredentials: true,
+            })
+            .then(response => {
+                this.setState({
+                    loggedInStatus: "NOT_LOGGED_IN",
+                    user: {}
+                });
+            })
+            .catch(error => {
+                console.log("logout error", error);
+            });
     }
 
     handleLogin(data) {
@@ -73,6 +78,7 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
+                <Button className="btn-primary" onClick={() => this.handleLogoutClick()}>Logout</Button>
                 <BrowserRouter>
                     <Switch>
                         <Route
@@ -82,7 +88,6 @@ export default class App extends Component {
                                 <Home
                                     {...props}
                                     handleLogin={this.handleLogin}
-                                    handleLogout={this.handleLogout}
                                     loggedInStatus={this.state.loggedInStatus}
                                 />
                             )}
