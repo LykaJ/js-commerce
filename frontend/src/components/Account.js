@@ -21,8 +21,6 @@ export default class Account extends Component {
         return (
             <div className="container">
                 <h1>Account</h1>
-                <h2>Status: {this.props.loggedInStatus}</h2>
-
                 <div className="row">
                     <div className="col-6">
                         <Registration handleSuccessfulAuth={this.handleSuccessfulAuth}/>

@@ -99,6 +99,7 @@ export default class App extends Component {
                                 <Dashboard
                                     {...props}
                                     loggedInStatus={this.state.loggedInStatus}
+                                    user={this.state.user}
                                 />
                             )}
                         />

@@ -28,7 +28,6 @@ export default class Nav extends Component {
     }
 
     render() {
-        console.log(this.props)
         const user = this.props.loggedInStatus === 'LOGGED_IN';
         let link;
         if (user) {
