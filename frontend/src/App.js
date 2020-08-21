@@ -54,7 +54,7 @@ export default class App extends Component {
         this.checkLoginStatus();
     }
 
-    handleLogoutClick() {
+   /* handleLogoutClick() {
         axios
             .put("http://localhost:3000/logout", {
                 withCredentials: true,
@@ -68,7 +68,7 @@ export default class App extends Component {
             .catch(error => {
                 console.log("logout error", error);
             });
-    }
+    }*/
 
     handleLogin(data) {
         this.setState({
@@ -78,16 +78,16 @@ export default class App extends Component {
     }
 
     render() {
-        const user = this.state.loggedInStatus === "LOGGED_IN";
+       /* const user = this.state.loggedInStatus === "LOGGED_IN";
         let button;
         if(user) {
            button = <Button className="btn-primary" onClick={() => this.handleLogoutClick()}>Logout</Button>
-        }
+        }*/
         return (
             <div className="App">
                 <BrowserRouter>
-                    <Nav/>
-                    {button}
+                    <Nav user={this.state.user} loggedInStatus={this.state.loggedInStatus}/>
+                  {/*  {button}*/}
                     <Switch>
                         <Route
                         exact
@@ -95,6 +95,7 @@ export default class App extends Component {
                         component={Home}
                         />
                         <Route
+                            exact
                             path={"/account"}
                             render={props => (
                                 <Account
@@ -105,6 +106,7 @@ export default class App extends Component {
                             )}
                         />
                         <Route
+                            exact
                             path={"/dashboard"}
                             render={props => (
                                 <Dashboard
@@ -112,6 +114,9 @@ export default class App extends Component {
                                     loggedInStatus={this.state.loggedInStatus}
                                 />
                             )}
+                        />
+                        <Route
+                        path={'/logout'}
                         />
                     </Switch>
                 </BrowserRouter>

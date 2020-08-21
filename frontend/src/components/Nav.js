@@ -1,20 +1,45 @@
 import React, {Component} from "react";
 import {Link} from 'react-router-dom';
-import {Button} from "react-bootstrap";
+import axios from "axios";
 
 export default class Nav extends Component {
 
     constructor(props) {
         super(props);
 
-        this.handleLogout = this.handleLogout.bind(this);
+        this.state = {
+            loggedInStatus: this.props.loggedInStatus,
+            user: this.props.user
+        }
     }
 
-    handleLogout() {
-        this.props.handleLogoutClick()
+    handleLogoutClick() {
+        axios
+            .put("http://localhost:3000/logout", {
+                withCredentials: true,
+            })
+            .then(response => {
+                this.setState({
+                    loggedInStatus: "NOT_LOGGED_IN",
+                    user: {}
+                })
+
+            })
+            .catch(error => {
+                console.log("logout error", error);
+            });
     }
 
     render() {
+        console.log(this.props)
+        const user = this.props.loggedInStatus === 'LOGGED_IN';
+        let link;
+        if (user) {
+            link =
+                <Link className="nav-link" onClick={() => this.handleLogoutClick()}>
+                    Logout
+                </Link>
+        }
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <a className="navbar-brand" href="#">Navbar</a>
@@ -43,11 +68,9 @@ export default class Nav extends Component {
                                 Dashboard
                             </Link>
                         </li>
-                       {/* <li className="nav-item">
-                            <Link className="nav-link">
-                                Logout
-                            </Link>
-                        </li>*/}
+                        <li className="nav-item">
+                            {link}
+                        </li>
                     </ul>
                 </div>
             </nav>
