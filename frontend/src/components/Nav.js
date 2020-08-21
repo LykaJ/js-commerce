@@ -11,6 +11,7 @@ export default class Nav extends Component {
             loggedInStatus: this.props.loggedInStatus,
             user: this.props.user
         }
+        this.handleLogoutClick = this.handleLogoutClick.bind(this);
     }
 
     handleLogoutClick() {
@@ -19,11 +20,7 @@ export default class Nav extends Component {
                 withCredentials: true,
             })
             .then(response => {
-                this.setState({
-                    loggedInStatus: "NOT_LOGGED_IN",
-                    user: {}
-                })
-
+                this.props.handleLogout();
             })
             .catch(error => {
                 console.log("logout error", error);
@@ -36,7 +33,7 @@ export default class Nav extends Component {
         let link;
         if (user) {
             link =
-                <Link className="nav-link" onClick={() => this.handleLogoutClick()}>
+                <Link className="nav-link" onClick={this.handleLogoutClick}>
                     Logout
                 </Link>
         }

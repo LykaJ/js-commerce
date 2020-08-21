@@ -19,6 +19,7 @@ export default class App extends Component {
         };
 
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
     checkLoginStatus() {
@@ -54,22 +55,6 @@ export default class App extends Component {
         this.checkLoginStatus();
     }
 
-   /* handleLogoutClick() {
-        axios
-            .put("http://localhost:3000/logout", {
-                withCredentials: true,
-            })
-            .then(response => {
-                this.setState({
-                    loggedInStatus: "NOT_LOGGED_IN",
-                    user: {}
-                });
-            })
-            .catch(error => {
-                console.log("logout error", error);
-            });
-    }*/
-
     handleLogin(data) {
         this.setState({
             loggedInStatus: "LOGGED_IN",
@@ -77,22 +62,24 @@ export default class App extends Component {
         });
     }
 
+    handleLogout() {
+        this.setState({
+            loggedInStatus: "NOT_LOGGED_IN",
+            user: {}
+        })
+    }
+
     render() {
-       /* const user = this.state.loggedInStatus === "LOGGED_IN";
-        let button;
-        if(user) {
-           button = <Button className="btn-primary" onClick={() => this.handleLogoutClick()}>Logout</Button>
-        }*/
         return (
             <div className="App">
                 <BrowserRouter>
-                    <Nav user={this.state.user} loggedInStatus={this.state.loggedInStatus}/>
-                  {/*  {button}*/}
+                    <Nav user={this.state.user} loggedInStatus={this.state.loggedInStatus}
+                         handleLogout={this.handleLogout}/>
                     <Switch>
                         <Route
-                        exact
-                        path={"/"}
-                        component={Home}
+                            exact
+                            path={"/"}
+                            component={Home}
                         />
                         <Route
                             exact
@@ -116,7 +103,7 @@ export default class App extends Component {
                             )}
                         />
                         <Route
-                        path={'/logout'}
+                            path={'/logout'}
                         />
                     </Switch>
                 </BrowserRouter>
