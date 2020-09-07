@@ -20,7 +20,7 @@ export default class Account extends Component {
     render() {
         return (
             <div className="container">
-                <h1>Account</h1>
+                <h1>Connect here!</h1>
                 <div className="row">
                     <div className="col-6">
                         <Registration handleSuccessfulAuth={this.handleSuccessfulAuth}/>

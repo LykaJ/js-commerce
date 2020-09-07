@@ -55,19 +55,21 @@ export default class Nav extends Component {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to={'/account'}>
-                                Account
-                            </Link>
-                        </li>
-                        <li className="nav-item">
                             <Link className="nav-link" to={'/dashboard'}>
                                 Dashboard
                             </Link>
                         </li>
                         <li className="nav-item">
-                            {link}
+                            <Link className="nav-link" to={'/account'}>
+                                Connection
+                            </Link>
                         </li>
                     </ul>
+                    <ul  className="navbar-nav">
+                        <li className="nav-item">
+                            {link}
+                        </li>
+                  </ul>
                 </div>
             </nav>
         );
