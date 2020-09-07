@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 module.exports = (req, res, next) => {
     try {
@@ -10,6 +11,15 @@ module.exports = (req, res, next) => {
         } else {
             next();
         }
+
+        User.findOne({id: userId})
+            .then(user => {
+                if (user.isTokenBlacklisted === true) {
+                    res.status(401).json({message: 'Access Denied'});
+                }
+            })
+            .catch(error => {res.status(500).json({error})});
+
     } catch {
         res.status(401).json({
             error: new Error('Invalid request!')
