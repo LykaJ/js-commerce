@@ -79,7 +79,11 @@ export default class App extends Component {
                         <Route
                             exact
                             path={"/"}
-                            component={Home}
+                            render={props => (
+                                <Home
+                                    {...props}
+                                />
+                            )}
                         />
                         <Route
                             exact
