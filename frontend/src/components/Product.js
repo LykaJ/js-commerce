@@ -37,13 +37,12 @@ export class Product extends Component {
 
     handleSubmit(event) {
         const {name, description, price, imageUrl} = this.state;
-        const accessToken = this.props.user.token;
         const currentUser = this.props.user;
 
         const options = {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + accessToken
+                'Authorization': 'Bearer ' + currentUser.token
             }
         };
 
@@ -67,7 +66,7 @@ export class Product extends Component {
 
                 })
                 .catch(error => {
-                    console.log("product creation error", error);
+                    console.log("Product creation error ", error);
                 });
         }
 

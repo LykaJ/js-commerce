@@ -3,10 +3,14 @@ const Product = require('../models/Product');
 exports.createProduct = (req, res) => {
     let product = new Product({
         ...req.body
-    });
+    })
     product.save()
-        .then(product => res.status(201).json({product, message: 'The product was successfully created'}))
-        .catch(error => res.status(400).json({error}));
+    if (product) {
+        res.status(201).json({product, message: 'The product was successfully created'});
+
+    } else {
+        res.status(400).json({message: 'The product could not be created'});
+    }
 };
 
 exports.editProduct = (req, res) => {
@@ -16,8 +20,8 @@ exports.editProduct = (req, res) => {
 };
 
 exports.deleteProduct = (req, res) => {
-    Product.deleteOne({ _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'The product was successfully deleted'}))
+    Product.deleteOne({_id: req.params.id})
+        .then(() => res.status(200).json({message: 'The product was successfully deleted'}))
         .catch(error => res.status(400).json({error}));
 };
 
