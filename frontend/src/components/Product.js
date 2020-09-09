@@ -11,10 +11,11 @@ export class Product extends Component {
 
         this.state = {
             products: [],
-            user: [],
             name: "",
             description: "",
-            price: ""
+            price: "",
+            image: "",
+            user: {}
         };
     }
 
@@ -31,21 +32,31 @@ export class Product extends Component {
     }
 
     handleSubmit(event) {
-        const {name, description, price} = this.state;
+        const {name, description, price, image} = this.state;
+        const accessToken = this.props.user.token;
+
         axios
             .post(
                 "http://localhost:3000/products",
-                //TODO: add headers for authent
                 {
                     name: name,
                     description: description,
-                    price: price
+                    price: price,
+                    image: image
                 },
-                {withCredentials: true}
+                {withCredentials: true},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + accessToken
+                    }
+                }
             )
             .then(response => {
-                //TODO: return user via setState
+                //TODO: find the userId via jwt token
+                // edit user via setState
                 if (response.data.status === "created") {
+
                     console.log("The product was successfully created");
                 }
             })
@@ -60,7 +71,6 @@ export class Product extends Component {
         const {products} = this.state;
 
         const user = this.props.user;
-        console.log(user)
 
         let form;
 
@@ -85,6 +95,13 @@ export class Product extends Component {
                         <label htmlFor="price">Price</label>
                         <input type="text" className="form-control" id="price" name="price"
                                value={this.state.price}
+                               onChange={this.handleChange} required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="image">Image Url</label>
+                        <input type="text" className="form-control" id="price" name="image"
+                               value={this.state.image}
                                onChange={this.handleChange} required
                         />
                     </div>

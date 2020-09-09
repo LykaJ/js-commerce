@@ -82,6 +82,7 @@ export default class App extends Component {
                             render={props => (
                                 <Home
                                     {...props}
+                                    user={this.state.user}
                                 />
                             )}
                         />
