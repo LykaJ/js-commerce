@@ -32,7 +32,7 @@ export default class Nav extends Component {
         let link;
         if (user) {
             link =
-                <Link className="nav-link" onClick={this.handleLogoutClick}>
+                <Link className="nav-link" onClick={this.handleLogoutClick} to={'/logout'}>
                     Logout
                 </Link>
         }

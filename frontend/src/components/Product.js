@@ -11,12 +11,16 @@ export class Product extends Component {
 
         this.state = {
             products: [],
+
             name: "",
             description: "",
             price: "",
-            image: "",
-            user: {}
+            imageUrl: "",
+            userId: ""
         };
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -32,37 +36,40 @@ export class Product extends Component {
     }
 
     handleSubmit(event) {
-        const {name, description, price, image} = this.state;
+        const {name, description, price, imageUrl} = this.state;
         const accessToken = this.props.user.token;
+        const currentUser = this.props.user;
 
-        axios
-            .post(
-                "http://localhost:3000/products",
-                {
-                    name: name,
-                    description: description,
-                    price: price,
-                    image: image
-                },
-                {withCredentials: true},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + accessToken
+        const options = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken
+            }
+        };
+
+        if (currentUser) {
+            axios
+                .post(
+                    "http://localhost:3000/products",
+                    {
+                        name: name,
+                        description: description,
+                        price: price,
+                        imageUrl: imageUrl,
+                        userId: currentUser._id
+                    },
+                    options,
+                )
+                .then(response => {
+                    if (response.data.status === "created") {
+                        console.log("The product was successfully created");
                     }
-                }
-            )
-            .then(response => {
-                //TODO: find the userId via jwt token
-                // edit user via setState
-                if (response.data.status === "created") {
 
-                    console.log("The product was successfully created");
-                }
-            })
-            .catch(error => {
-                console.log("product creation error", error);
-            });
+                })
+                .catch(error => {
+                    console.log("product creation error", error);
+                });
+        }
 
         event.preventDefault();
     }
@@ -100,7 +107,7 @@ export class Product extends Component {
                     </div>
                     <div className="form-group">
                         <label htmlFor="image">Image Url</label>
-                        <input type="text" className="form-control" id="price" name="image"
+                        <input type="text" className="form-control" id="price" name="imageUrl"
                                value={this.state.image}
                                onChange={this.handleChange} required
                         />
@@ -118,7 +125,7 @@ export class Product extends Component {
                     {products.map(product =>
                         <Card key={product._id}>
                             <div className="card-body">
-                                <img className="card-img-top" src={product.imageUrl} alt="Card image cap"></img>
+                                <img className="card-img-top" src={product.imageUrl} alt="Card cap"/>
                                 <h3 className="card-title">{product.name}</h3>
                                 <p className="card-text">{product.description}</p>
                                 <p className="card-text">{product.price} €</p>
