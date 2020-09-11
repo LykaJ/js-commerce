@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
-import {Button} from "react-bootstrap";
 
 import './App.css';
 import Account from "./components/Account";
@@ -79,7 +78,12 @@ export default class App extends Component {
                         <Route
                             exact
                             path={"/"}
-                            component={Home}
+                            render={props => (
+                                <Home
+                                    {...props}
+                                    user={this.state.user}
+                                />
+                            )}
                         />
                         <Route
                             exact

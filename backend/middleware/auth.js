@@ -6,22 +6,21 @@ module.exports = (req, res, next) => {
         const token = req.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
         const userId = decodedToken.userId;
+        let user = User.findOne({id: userId});
+
         if (req.body.userId && req.body.userId !== userId) {
             throw 'Invalid user ID';
-        } else {
+        } else if (user.isTokenBlacklisted === true) {
+            return res.status(401).json({
+                error: new Error('Access Denied')
+            });
+        }
+        else {
             next();
         }
 
-        User.findOne({id: userId})
-            .then(user => {
-                if (user.isTokenBlacklisted === true) {
-                    res.status(401).json({message: 'Access Denied'});
-                }
-            })
-            .catch(error => {res.status(500).json({error})});
-
     } catch {
-        res.status(401).json({
+        return res.status(401).json({
             error: new Error('Invalid request!')
         });
     }
