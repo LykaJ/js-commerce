@@ -88,7 +88,7 @@ export class Product extends Component {
 
         let form;
 
-        if (user.token) {
+        if (user) {
             form =
                 <Form onSubmit={this.handleSubmit}>
                     <div className="form-group">
