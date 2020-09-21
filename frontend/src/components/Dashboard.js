@@ -12,6 +12,7 @@ export default class Dashboard extends Component {
             email = <p>{this.props.user.email}</p>
             status = <p>{this.props.loggedInStatus}</p>
         }
+
         return (
             <div className="container">
 
@@ -19,7 +20,6 @@ export default class Dashboard extends Component {
                 <h2>Your account</h2>
                 {email}
                 {status}
-
             </div>
         );
     }
