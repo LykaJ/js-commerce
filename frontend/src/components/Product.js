@@ -59,6 +59,14 @@ export class Product extends Component {
                     },
                     options,
                 )
+
+            this.setState({
+                name: "",
+                description: "",
+                price: "",
+                imageUrl: "",
+                userId: ""
+            })
                 .then(response => {
                     if (response.data.status === "created") {
                         console.log("The product was successfully created");
@@ -80,7 +88,7 @@ export class Product extends Component {
 
         let form;
 
-        if (user.token) {
+        if (user) {
             form =
                 <Form onSubmit={this.handleSubmit}>
                     <div className="form-group">

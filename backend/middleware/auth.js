@@ -14,6 +14,8 @@ module.exports = (req, res, next) => {
             return res.status(401).json({
                 error: new Error('Access Denied')
             });
+        } else if ( decodedToken.exp * 1000 < Date.now()) {
+            return res.redirect('/logout');
         }
         else {
             next();
